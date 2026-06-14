@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tengo una pregunta... 💖</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffe6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 90%;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        #btn-si {
+            background-color: #4cc9f0;
+            color: white;
+            z-index: 100; /* Asegura que el SÍ siempre esté visible y clickeable */
+        }
+
+        #btn-si:hover {
+            transform: scale(1.1);
+            background-color: #4895ef;
+        }
+
+        /* Clase para los botones NO que irán apareciendo */
+        .no-clonado {
+            position: absolute;
+            background-color: #ff4d6d;
+            color: white;
+            animation: aparecer 0.2s ease-out;
+        }
+
+        #btn-no-original {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        .oculto {
+            display: none !important;
+        }
+
+        .mensaje-exito {
+            color: #ff4d6d;
+        }
+
+        .mensaje-exito h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .mensaje-exito p {
+            font-size: 1.5rem;
+        }
+
+        @keyframes aparecer {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="panel-propuesta">
+        <h1>¿Quieres ser mi novio? 💖</h1>
+        <div class="buttons" id="contenedor-botones">
+            <button class="btn" id="btn-si" onclick="aceptar()">¡Sí, acepto!</button>
+            <button class="btn" id="btn-no-original" onclick="multiplicarNo(event)">No</button>
+        </div>
+    </div>
+
+    <div class="container oculto" id="panel-exito">
+        <div class="mensaje-exito">
+            <h2>¡Sabía que dirías que sí! 🥰 UnU 💖</h2>
+            <p>¡Prepara la fecha porque ya es oficial! 🥂✨</p>
+        </div>
+    </div>
+
+    <script>
+        // Función cuando presiona cualquier botón "No"
+        function multiplicarNo(event) {
+            // Evitamos que haga cosas raras en pantallas táctiles
+            event.preventDefault();
+
+            // Vamos a generar 2 botones "No" nuevos cada vez que toque uno
+            for (let i = 0; i < 2; i++) {
+                const nuevoNo = document.createElement('button');
+                nuevoNo.innerText = 'No';
+                nuevoNo.className = 'btn no-clonado';
+
+                // Calculamos una posición aleatoria en la pantalla
+                // Dejamos un margen para que no salgan completamente fuera de los bordes
+                const x = Math.random() * (window.innerWidth - 120);
+                const y = Math.random() * (window.innerHeight - 50);
+
+                nuevoNo.style.left = x + 'px';
+                nuevoNo.style.top = y + 'px';
+
+                // Hacemos que los nuevos botones también se multipliquen al tocarlos
+                nuevoNo.addEventListener('click', multiplicarNo);
+                nuevoNo.addEventListener('touchstart', multiplicarNo);
+
+                document.body.appendChild(nuevoNo);
+            }
+        }
+
+        // Función cuando finalmente toca el "Sí"
+        function aceptar() {
+            // Ocultamos la propuesta original
+            document.getElementById('panel-propuesta').classList.add('oculto');
+            
+            // Eliminamos todos los botones "No" invasores de la pantalla
+            const botonesNo = document.querySelectorAll('.no-clonado');
+            botonesNo.forEach(boton => boton.remove());
+            
+            const noOriginal = document.getElementById('btn-no-original');
+            if(noOriginal) noOriginal.remove();
+
+            // Mostramos el mensaje romántico de éxito
+            document.getElementById('panel-exito').classList.remove('oculto');
+        }
+    </script>
+</body>
+          </html>
+          
